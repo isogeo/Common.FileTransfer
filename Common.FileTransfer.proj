@@ -1,0 +1,35 @@
+<Project
+  DefaultTargets="Rebuild"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+  ToolsVersion="12.0"
+>
+
+  <PropertyGroup>
+    <ProjectName Condition="'$(ProjectName)'==''">$(MSBuildProjectName)</ProjectName>
+    <WindowsSdkVersion>v8.0A</WindowsSdkVersion>
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+
+
+  <!-- Projects -->
+  <ItemDefinitionGroup>
+    <Projects>
+      <Configuration>Release</Configuration>
+      <Platform>Any CPU</Platform>
+      <Constants>TRACE</Constants>
+      <Library>True</Library>
+      <Packaged>True</Packaged>
+      <Released>True</Released>
+    </Projects>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <Projects Include="Common.FileTransfer.sln">
+      <Properties>VisualStudioVersion=$(VisualStudioVersion)</Properties>
+    </Projects>
+  </ItemGroup>
+
+  <!-- Import external targets -->
+  <Import Project="$(MSBuildProjectDirectory)\packages\Isogeo.Build.*\tools\build\Isogeo.Common.targets" />
+
+</Project>
