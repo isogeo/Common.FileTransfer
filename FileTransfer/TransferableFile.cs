@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 namespace Common.FileTransfer
 {
 
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    ///
+    /// <summary>Class that represents a transferable file.</summary>
+    ///
+    ////////////////////////////////////////////////////////////////////////////
+
     public class TransferableFile
     {
 
         private TransferableFile()
         { }
 
+        /// <summary>Creates a new instance of the <see cref="TransferableFile" /> class.</summary>
+        /// <param name="content">A function tahat can be called to retrieve the content of the transferable file.</param>
         public TransferableFile(Func<Stream> content)
         {
             Debug.Assert(content!=null);
@@ -21,6 +31,9 @@ namespace Common.FileTransfer
             _Content=content;
         }
 
+        /// <summary>Creates a new instance of the <see cref="TransferableFile" /> class.</summary>
+        /// <param name="content">A function tahat can be called to retrieve the content of the transferable file.</param>
+        /// <param name="length">The length of the file.</param>
         public TransferableFile(Func<Stream> content, long length):
             this(content)
         {
@@ -31,6 +44,8 @@ namespace Common.FileTransfer
             _Length=length;
         }
 
+        /// <summary>Gets a stream to the content of the file.</summary>
+        /// <remarks>It is the responsibility of the caller to <see cref="Stream.Dispose()" /> thje returned stream.</remarks>
         public Stream Content
         {
             get
@@ -39,6 +54,7 @@ namespace Common.FileTransfer
             }
         }
 
+        /// <summary>Gets or sets the MIME type of the transferable file.</summary>
         public string MimeType
         {
             get
@@ -53,6 +69,7 @@ namespace Common.FileTransfer
             }
         }
 
+        /// <summary>Gets the length of the transferable file.</summary>
         public long? Length
         {
             get
