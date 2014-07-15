@@ -29,6 +29,7 @@ namespace Common.FileTransfer
                 throw new ArgumentNullException("content");
 
             _Content=content;
+            Name=null;
         }
 
         /// <summary>Creates a new instance of the <see cref="TransferableFile" /> class.</summary>
@@ -59,13 +60,30 @@ namespace Common.FileTransfer
         {
             get
             {
-                return _MimeType;
+                return _MimeType ?? _DefaultMimeType;
             }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    _MimeType=_DefaultMimetype;
-                _MimeType=value;
+                    _MimeType=null;
+                else
+                    _MimeType=value;
+            }
+        }
+
+        /// <summary>Gets or sets the MIME type of the transferable file.</summary>
+        public string Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _Name=Path.GetRandomFileName();
+                else
+                    _Name=value;
             }
         }
 
@@ -78,10 +96,11 @@ namespace Common.FileTransfer
             }
         }
 
-        private string _MimeType=_DefaultMimetype;
+        private string _MimeType=_DefaultMimeType;
+        private string _Name;
         private Func<Stream> _Content;
         private long? _Length;
 
-        private const string _DefaultMimetype="application/octet-stream";
+        private const string _DefaultMimeType="application/octet-stream";
     }
 }
