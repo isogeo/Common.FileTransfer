@@ -16,6 +16,10 @@ namespace Common.FileTransfer
     public interface IFileTransferClient
     {
 
+        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="path">The URI to the file to be deleted.</param>
+        Task DeleteAsync(Uri path);
+
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The URI to the file to be downloaded.</param>
         /// <returns>The file.</returns>

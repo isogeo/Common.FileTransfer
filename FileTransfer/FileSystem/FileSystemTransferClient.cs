@@ -24,6 +24,19 @@ namespace Common.FileTransfer.FileSystem
         {
         }
 
+        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="path">The URI to the file to be deleted.</param>
+        protected override Task DoDeleteAsync(Uri path)
+        {
+            string localPath=path.LocalPath;
+            var fi=new FileInfo(localPath);
+            fi.Delete();
+
+            var tcs=new TaskCompletionSource<object>();
+            tcs.SetResult(null);
+            return tcs.Task;
+        }
+
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The absolute URI to the file to be downloaded.</param>
         /// <returns>The file.</returns>

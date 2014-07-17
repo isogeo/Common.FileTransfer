@@ -32,6 +32,15 @@ namespace Common.FileTransfer
             _BaseAddress=baseAddress;
         }
 
+        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="relativePath">The URI to the file to be deleted, relative to the client base address.</param>
+        public Task DeleteAsync(Uri relativePath)
+        {
+            var args=new ResolvingPathEventArgs(_BaseAddress, relativePath.ToString());
+            OnResolvingPath(args);
+            return DoDeleteAsync(args.ResolvedPath);
+        }
+
         /// <summary>Downloads the file referenced by the specified <paramref name="relativePath" />.</summary>
         /// <param name="relativePath">The URI to the file to be downloaded, relative to the client base address.</param>
         /// <returns>The file.</returns>
@@ -57,6 +66,10 @@ namespace Common.FileTransfer
             if (ResolvingPath!=null)
                 ResolvingPath(this, e);
         }
+
+        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="path">The URI to the file to be deleted.</param>
+        protected abstract Task DoDeleteAsync(Uri path);
 
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The absolute URI to the file to be downloaded.</param>

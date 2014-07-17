@@ -28,6 +28,17 @@ namespace Common.FileTransfer.AzureStorage
             _ContainerName=containerName;
         }
 
+        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="relativePath">The URI to the file to be deleted, relative to the client base address.</param>
+        public async Task DeleteAsync(Uri relativePath)
+        {
+            if (!await Container.ExistsAsync())
+                return;
+
+            var blob=Container.GetBlockBlobReference(relativePath.ToString());
+            await blob.DeleteIfExistsAsync();
+        }
+
         /// <summary>Downloads the file referenced by the specified <paramref name="relativePath" />.</summary>
         /// <param name="relativePath">The URI to the file to be downloaded, relative to the client base address.</param>
         /// <returns>The file.</returns>
@@ -35,12 +46,7 @@ namespace Common.FileTransfer.AzureStorage
         {
             await Container.CreateIfNotExistsAsync();
             var blob=Container.GetBlockBlobReference(relativePath.ToString());
-            //blob.
-            //var ret=new TransferableFile( () => 
-            //);
-            //blob.DownloadToStreamAsync()
-
-            throw new NotImplementedException();
+            return new BlockBlobTransferableFile(blob);
         }
 
         /// <summary>Uploads the specified file.</summary>
