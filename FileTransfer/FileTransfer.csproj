@@ -55,12 +55,15 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="FileSystem\MimeTypeHelper.cs" />
+    <Compile Include="TransferableFile.cs" />
     <Compile Include="FileSystem\FileSystemTransferClient.cs" />
     <Compile Include="FileTransferClient.cs" />
     <Compile Include="IFileTransferClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolvingPathEventArgs.cs" />
-    <Compile Include="TransferableFile.cs" />
+    <Compile Include="ITransferableFile.cs" />
+    <Compile Include="FileSystem\FileSystemTransferableFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common.FileTransfer.snk">

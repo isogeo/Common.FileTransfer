@@ -35,7 +35,7 @@ namespace Common.FileTransfer
         /// <summary>Downloads the file referenced by the specified <paramref name="relativePath" />.</summary>
         /// <param name="relativePath">The URI to the file to be downloaded, relative to the client base address.</param>
         /// <returns>The file.</returns>
-        public Task<TransferableFile> DownloadAsync(Uri relativePath)
+        public Task<ITransferableFile> DownloadAsync(Uri relativePath)
         {
             var args=new ResolvingPathEventArgs(_BaseAddress, relativePath.ToString());
             OnResolvingPath(args);
@@ -45,7 +45,7 @@ namespace Common.FileTransfer
         /// <summary>Uploads the specified file.</summary>
         /// <param name="file">The file to upload.</param>
         /// <returns>The URI that will be used to <see cref="DownloadAsync">download</see> the file.</returns>
-        public Task<Uri> UploadAsync(TransferableFile file)
+        public Task<Uri> UploadAsync(ITransferableFile file)
         {
             return DoUploadAsync(file);
         }
@@ -61,12 +61,12 @@ namespace Common.FileTransfer
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The absolute URI to the file to be downloaded.</param>
         /// <returns>The file.</returns>
-        protected abstract Task<TransferableFile> DoDownloadAsync(Uri path);
+        protected abstract Task<ITransferableFile> DoDownloadAsync(Uri path);
 
         /// <summary>Uploads the specified file.</summary>
         /// <param name="file">The file to upload.</param>
         /// <returns>The URI that will be used to <see cref="DownloadAsync">download</see> the file.</returns>
-        protected abstract Task<Uri> DoUploadAsync(TransferableFile file);
+        protected abstract Task<Uri> DoUploadAsync(ITransferableFile file);
 
         /// <summary>Gets the base address for this client.</summary>
         protected Uri BaseAddress

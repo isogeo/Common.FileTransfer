@@ -27,23 +27,23 @@ namespace Common.FileTransfer.FileSystem
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The absolute URI to the file to be downloaded.</param>
         /// <returns>The file.</returns>
-        protected override Task<TransferableFile> DoDownloadAsync(Uri path)
+        protected override Task<ITransferableFile> DoDownloadAsync(Uri path)
         {
             string localPath=path.LocalPath;
             var fi=new FileInfo(localPath);
 
-            var ret=new TransferableFile(() => fi.OpenRead(), fi.Length);
-            return Task.FromResult(ret);
+            var ret=new FileSystemTransferableFile(fi);
+            return Task.FromResult(ret as ITransferableFile);
         }
 
         /// <summary>Uploads the specified file.</summary>
         /// <param name="file">The file to upload.</param>
         /// <returns>The URI that will be used to <see cref="FileTransferClient.DownloadAsync">download</see> the file.</returns>
-        protected override async Task<Uri> DoUploadAsync(TransferableFile file)
+        protected override async Task<Uri> DoUploadAsync(ITransferableFile file)
         {
             var path=Path.Combine(BaseAddress.LocalPath, file.Name);
             using (var dfs=File.Create(path, 1024, FileOptions.Asynchronous | FileOptions.WriteThrough))
-                using (var sfs=file.Content)
+                using (var sfs=await file.GetContentAsync())
                     await sfs.CopyToAsync(dfs);
 
             return new Uri(path);

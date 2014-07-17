@@ -19,14 +19,14 @@ namespace Common.FileTransfer
         /// <summary>Downloads the file referenced by the specified <paramref name="path" />.</summary>
         /// <param name="path">The URI to the file to be downloaded.</param>
         /// <returns>The file.</returns>
-        Task<TransferableFile> DownloadAsync(Uri path);
+        Task<ITransferableFile> DownloadAsync(Uri path);
 
         /// <summary>Uploads the specified file.</summary>
         /// <param name="file">The file to upload.</param>
         /// <returns>The URI that will be used to <see cref="DownloadAsync">download</see> the file.</returns>
-        Task<Uri> UploadAsync(TransferableFile file);
+        Task<Uri> UploadAsync(ITransferableFile file);
 
-        /// <summary>Event triggered when a path is being resolved.</summary>
-        event EventHandler<ResolvingPathEventArgs> ResolvingPath;
+        ///// <summary>Event triggered when a path is being resolved.</summary>
+        //event EventHandler<ResolvingPathEventArgs> ResolvingPath;
     }
 }
