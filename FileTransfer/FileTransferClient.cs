@@ -32,7 +32,7 @@ namespace Common.FileTransfer
             _BaseAddress=baseAddress;
         }
 
-        /// <summary>Deletes the file referenced by the specified <paramref name="path" />.</summary>
+        /// <summary>Deletes the file referenced by the specified <paramref name="relativePath" />.</summary>
         /// <param name="relativePath">The URI to the file to be deleted, relative to the client base address.</param>
         public Task DeleteAsync(Uri relativePath)
         {

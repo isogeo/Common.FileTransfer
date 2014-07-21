@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -17,7 +20,7 @@ namespace Common.FileTransfer.AzureStorage
     ////////////////////////////////////////////////////////////////////////////
 
     public class BlockBlobTransferClient:
-        IFileTransferClient
+        ILargeFileTransferClient
     {
 
         /// <summary>Creates a new instance of the <see cref="BlockBlobTransferClient" /> class.</summary>
@@ -62,6 +65,34 @@ namespace Common.FileTransfer.AzureStorage
             await blob.UploadFromStreamAsync(await file.GetContentAsync());
 
             return new Uri(file.Name);
+        }
+
+        /// <summary>Uploads the specified chunk.</summary>
+        /// <param name="id">The identifier of the chunk.</param>
+        /// <param name="chunk">The chunk.</param>
+        public async Task<Uri> UploadChunkAsync(int id, ITransferableFile chunk)
+        {
+            await Container.CreateIfNotExistsAsync();
+            var blob=Container.GetBlockBlobReference(chunk.Name);
+            var sid=string.Format(
+                CultureInfo.InvariantCulture,
+                "{1:X8}",
+                id
+            );
+
+            await blob.PutBlockAsync(sid, await chunk.GetContentAsync(), null);
+
+            return new Uri(chunk.Name);
+        }
+
+        /// <summary>Consolidates all the uploaded chunks.</summary>
+        /// <param name="ids">The ordered list of chunk identifiers.</param>
+        public async Task CommitUpload(Uri path, int chunks)
+        {
+            await Container.CreateIfNotExistsAsync();
+            var blob=Container.GetBlockBlobReference(path.ToString());
+
+            await blob.PutBlockListAsync(Enumerable.Range(0, chunks).Select( i => i.ToString("{0:X8}", CultureInfo.InvariantCulture)));
         }
 
         protected CloudBlobContainer Container
