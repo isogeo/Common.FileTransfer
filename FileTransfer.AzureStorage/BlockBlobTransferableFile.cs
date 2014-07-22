@@ -45,7 +45,13 @@ namespace Common.FileTransfer.AzureStorage
         /// <returns>A task that represents the asynchronous copy operation.</returns>
         public override async Task CopyContentToAsync(Stream destination)
         {
-            await _Blob.DownloadToStreamAsync(destination);
+            if (!Offset.HasValue && !Length.HasValue)
+            {
+                await _Blob.DownloadToStreamAsync(destination);
+                return;
+            }
+
+            await _Blob.DownloadRangeToStreamAsync(destination, Offset, Length);
         }
 
         /// <summary>Gets the length of the transferable file.</summary>
@@ -62,6 +68,7 @@ namespace Common.FileTransfer.AzureStorage
             await _Blob.FetchAttributesAsync();
             return _Blob.Properties.ContentType;
         }
+
         public override string Name
         {
             get
@@ -73,6 +80,9 @@ namespace Common.FileTransfer.AzureStorage
                 base.Name = value;
             }
         }
+
+        internal long? Offset { get; set; }
+        internal long? Length { get; set; }
 
         private CloudBlockBlob _Blob;
     }

@@ -95,6 +95,20 @@ namespace Common.FileTransfer.AzureStorage
             await blob.PutBlockListAsync(Enumerable.Range(0, chunks).Select( i => i.ToString("{0:X8}", CultureInfo.InvariantCulture)));
         }
 
+        /// <summary>Downloads part of the file referenced by the specified <paramref name="path" />.</summary>
+        /// <param name="path">The URI to the file to be downloaded.</param>
+        /// <param name="offset">The offset in the file at which to begin the download.</param>
+        /// <param name="length">The length of the data to download from the file.</param>
+        /// <returns>The file.</returns>
+        public async Task<ITransferableFile> DownloadRangeAsync(Uri path, long? offset, long? length)
+        {
+            var ret=await DownloadAsync(path) as BlockBlobTransferableFile;
+            ret.Offset=offset;
+            ret.Length=length;
+
+            return ret;
+        }
+
         protected CloudBlobContainer Container
         {
             get
