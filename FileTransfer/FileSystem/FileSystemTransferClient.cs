@@ -55,6 +55,9 @@ namespace Common.FileTransfer.FileSystem
         protected override async Task<Uri> DoUploadAsync(ITransferableFile file)
         {
             var path=Path.Combine(BaseAddress.LocalPath, file.Name);
+            var dir=Path.GetDirectoryName(path);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
             using (var dfs=File.Create(path, 1024, FileOptions.Asynchronous | FileOptions.WriteThrough))
                 using (var sfs=await file.GetContentAsync())
                     await sfs.CopyToAsync(dfs);
