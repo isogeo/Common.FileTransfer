@@ -25,10 +25,10 @@ namespace Common.FileTransfer.FileSystem
         [DllImport(@"urlmon.dll", CharSet=CharSet.Unicode, ExactSpelling=true, SetLastError=false)]
         private extern static int FindMimeFromData(
             IntPtr pBC, 
-            [MarshalAs(UnmanagedType.LPStr)] string pwzUrl,
+            [MarshalAs(UnmanagedType.LPWStr)] string pwzUrl,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType=UnmanagedType.I1, SizeParamIndex=3)] byte[] pBuffer,
             int cbSize,
-            [MarshalAs(UnmanagedType.LPStr)] string pwzMimeProposed,
+            [MarshalAs(UnmanagedType.LPWStr)] string pwzMimeProposed,
             int dwMimeFlags,
             out IntPtr ppwzMimeOut,
             int dwReserved
