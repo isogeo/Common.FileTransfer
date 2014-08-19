@@ -18,6 +18,12 @@ namespace Common.FileTransfer.FileSystem
     {
 
         /// <summary>Creates a new instance of the <see cref="FileSystemTransferClient" /> class.</summary>
+        protected FileSystemTransferClient() :
+            base()
+        {
+        }
+
+        /// <summary>Creates a new instance of the <see cref="FileSystemTransferClient" /> class.</summary>
         /// <param name="baseAddress"></param>
         public FileSystemTransferClient(Uri baseAddress):
             base(baseAddress)
