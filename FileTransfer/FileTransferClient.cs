@@ -17,7 +17,8 @@ namespace Common.FileTransfer
         IFileTransferClient
     {
 
-        private FileTransferClient()
+        /// <summary>Creates a new instance of the <see cref="FileTransferClient" /> class.</summary>
+        protected FileTransferClient()
         {
         }
 
@@ -25,10 +26,6 @@ namespace Common.FileTransfer
         /// <param name="baseAddress">The base address for this client.</param>
         protected FileTransferClient(Uri baseAddress)
         {
-            Debug.Assert(baseAddress!=null);
-            if (baseAddress==null)
-                throw new ArgumentNullException("baseAddress");
-
             _BaseAddress=baseAddress;
         }
 
@@ -87,6 +84,14 @@ namespace Common.FileTransfer
             get
             {
                 return _BaseAddress;
+            }
+            set
+            {
+                Debug.Assert(value!=null);
+                if (value==null)
+                    throw new ArgumentNullException("value");
+
+                _BaseAddress=value;
             }
         }
 
