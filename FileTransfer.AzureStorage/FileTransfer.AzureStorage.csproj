@@ -1,8 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <version>1.0.0.0</version>
+    <PackageProjectUrl>https://github.com/isogeo/Common.FileTransfer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/isogeo/Common.FileTransfer</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Isogeo FileTransfer AzureStorage</PackageTags>
+    <Authors>dev@isogeo.com</Authors>
+    <Owners>Isogeo</Owners>
+    <Copyright>Copyright © 2012-2019 Isogeo</Copyright>
     <RootNamespace>Common.FileTransfer.AzureStorage</RootNamespace>
     <AssemblyName>Common.FileTransfer.AzureStorage</AssemblyName>
+    <Description>File transfer related abstractions.</Description>
+    <PackageDescription>File transfer related abstractions.</PackageDescription>
     <TargetFramework>net45</TargetFramework>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -20,19 +29,7 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\Common.FileTransfer.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>dev@isogeo.com</Authors>
-    <PackageTags>Isogeo</PackageTags>
-    <RepositoryType>Git</RepositoryType>
-    <RepositoryUrl>https://github.com/isogeo/Common.FileTransfer</RepositoryUrl>
-    <PackageProjectUrl>http://geosikdev.blogspot.com/</PackageProjectUrl>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Activez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est le suivant : {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Edm" Version="5.6.0" />
     <PackageReference Include="Microsoft.Data.OData" Version="5.6.0" />
