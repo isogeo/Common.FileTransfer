@@ -34,6 +34,7 @@ stages:
         vmImage: 'windows-2019'
 
       variables:
+        solutionName: Common.FileTransfer
         SolutionDir: $(System.DefaultWorkingDirectory)
         artifactDirectoryName: 'NuGetFolder'
         artifactDirectoryLocation: $(System.DefaultWorkingDirectory)
@@ -83,7 +84,7 @@ stages:
       - task: PublishPipelineArtifact@1
         displayName: 'Generation NuGet artifacts'
         inputs:
-          artifact: $(NuGetArtifactName)
+          artifact: $(solutionName)
           path: $(artifactPath)
 
 ## SECOND JOB ###
@@ -106,7 +107,7 @@ stages:
         displayName: Recover NuGet packages Artifact
         inputs:
           buildType: 'current'
-          artifactName: $(NuGetArtifactName)
+          artifactName: $(solutionName)
           targetPath: $(System.DefaultWorkingDirectory)
 
       - task: NuGetCommand@2
